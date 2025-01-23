@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Message</title>
+</head>
+<body>
+    <h1>Send WhatsApp Message</h1>
+    {% if success %}
+        <p style="color:green;">{{ success }}</p>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="user_number">Receiver's WhatsApp Number:</label>
+        <input type="text" name="user_number" id="user_number" required>
+        <br><br>
+        <label for="message_body">Message:</label>
+        <textarea name="message_body" id="message_body" required></textarea>
+        <br><br>
+        <button type="submit">Send Message</button>
+    </form>
+    <a href="/messages/">View Messages</a> | <a href="/logout/">Logout</a>
+</body>
+</html>

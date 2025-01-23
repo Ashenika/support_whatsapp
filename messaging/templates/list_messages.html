@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message List</title>
+</head>
+<body>
+    <h1>List of Messages</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Content</th>
+            <th>Status</th>
+            <th>Timestamp</th>
+            <th>Actions</th>
+        </tr>
+        {% for message in messages %}
+        <tr>
+            <td>{{ message.id }}</td>
+            <td>{{ message.sender }}</td>
+            <td>{{ message.receiver }}</td>
+            <td>{{ message.content }}</td>
+            <td>{{ message.status }}</td>
+            <td>{{ message.timestamp }}</td>
+            <td><a href="/messages/{{ message.id }}/">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/send-message/">Send Message</a> | <a href="/logout/">Logout</a>
+</body>
+</html>
