@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Message Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Message</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Message Details</h1>
-    <p><strong>Sender:</strong> {{ message.sender }}</p>
-    <p><strong>Receiver:</strong> {{ message.receiver }}</p>
-    <p><strong>Content:</strong> {{ message.content }}</p>
-    <p><strong>Status:</strong> {{ message.status }}</p>
-    <p><strong>Timestamp:</strong> {{ message.timestamp }}</p>
-    <a href="/messages/">Back to List</a>
+    <div class="form-container">
+        <h1>Message Details</h1>
+        <div class="message-details">
+            <p><strong>ID:</strong> {{ message.id }}</p>
+            <p><strong>Sender:</strong> {{ message.sender }}</p>
+            <p><strong>Receiver:</strong> {{ message.receiver }}</p>
+            <p><strong>Content:</strong> {{ message.content }}</p>
+            <p><strong>Status:</strong> {{ message.status }}</p>
+            <p><strong>Timestamp:</strong> {{ message.timestamp }}</p>
+        </div>
+        <div class="message-actions">
+            <a href="/messages/" class="back-link">Back to List</a>
+        </div>
+    </div>
 </body>
 </html>
