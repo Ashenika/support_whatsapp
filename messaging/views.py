@@ -4,15 +4,26 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .models import WhatsAppMessage
 from twilio.rest import Client
 import logging
 
 logger = logging.getLogger(__name__)
 
+@api_view(['POST'])
 def user_login(request):
     """
         Handles user login.
+
+        - **POST**: Authenticates the user using the provided username and password.
+        - Request body: `username`, `password`
+
+    Responses:
+        - 200: Renders the login page or redirects to the message list on success.
+        - 400: Returns an error message if authentication fails.
 
         - If the request method is POST, authenticate the user using the provided username and password.
         - If the authentication succeeds, logs the user in and redirects to the message list page.
@@ -36,9 +47,11 @@ def user_login(request):
             return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
 
+@api_view(['GET'])
 def user_logout(request):
     """
         Handles user logout.
+        **GET**: Logs the user out and redirects to the login page.
 
         Parameters:
             request (HttpRequest): The HTTP request object containing metadata about the request.
@@ -50,10 +63,19 @@ def user_logout(request):
     return redirect('login')
 
 
+@api_view(['POST', 'GET'])
 @login_required
 def send_message(request):
     """
         Handles send whatsapp message.
+
+        - **POST**: Sends a message to the specified WhatsApp number.
+        - Request body: `user_number`, `message_body`
+        - **GET**: Renders the send message page.
+
+        Responses:
+        - 200: Success message if the message is sent successfully.
+        - 400: Error message if validation or Twilio API fails.
 
         Parameters:
             request (HttpRequest): The HTTP request object containing metadata about the request.
@@ -93,10 +115,13 @@ def send_message(request):
 
     return render(request, 'send_message.html')
 
+@api_view(['GET'])
 @login_required
 def list_messages(request):
     """
         View list of messages.
+
+        - **GET**: Retrieves all messages ordered by timestamp (newest first).
 
         Parameters:
             request (HttpRequest): The HTTP request object containing metadata about the request.
@@ -107,10 +132,12 @@ def list_messages(request):
     messages = WhatsAppMessage.objects.order_by('-timestamp')
     return render(request, 'list_messages.html', {'messages': messages})
 
+@api_view(['GET'])
 @login_required
 def view_message(request, message_id):
     """
         View single message.
+        - **GET**: Retrieves the details of a message by its ID.
 
         Parameters:
             request (HttpRequest): The HTTP request object containing metadata about the request.
@@ -122,10 +149,19 @@ def view_message(request, message_id):
     message = get_object_or_404(WhatsAppMessage, id=message_id)
     return render(request, 'view_message.html', {'message': message})
 
+@api_view(['POST'])
 @csrf_exempt
 def webhook(request):
     """
         Handles incoming WhatsApp messages via Twilio Webhook.
+
+        - **POST**: Processes the incoming message and saves it to the database.
+        - Request body (x-www-form-urlencoded): `From`, `To`, `Body`
+
+        Responses:
+        - 200: Success if the message is saved to the database.
+        - 400: Error if the data is incomplete.
+        - 500: Error if the database save fails.
 
         - This view processes POST requests sent by Twilio's webhook.
         - Extracts the sender, receiver, and message content from the request.

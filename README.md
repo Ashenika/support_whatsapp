@@ -65,6 +65,8 @@ docker-compose run app python manage.py createsuperuser
 - Database Errors:
   - Ensure migrations have been applied (python manage.py migrate).
 
+### View the API Documentation at ```http://127.0.0.1:8000/swagger/``` or ```http://127.0.0.1:8000/redoc/```
+
 ## Project Structure
 ```bash
 support_whatsapp/
