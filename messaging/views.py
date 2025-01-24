@@ -13,7 +13,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def user_login(request):
     """
         Handles user login.
@@ -47,7 +47,7 @@ def user_login(request):
             return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def user_logout(request):
     """
         Handles user logout.

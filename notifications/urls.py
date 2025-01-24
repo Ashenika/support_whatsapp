@@ -42,7 +42,6 @@ urlpatterns = [
     path('webhook/', webhook, name='webhook'),
     path('messages/', list_messages, name='list_messages'),
     path('messages/<int:message_id>/', view_message, name='view_message'),
-    path('webhook/', webhook, name='webhook'),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

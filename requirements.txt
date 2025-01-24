@@ -3,3 +3,5 @@ djangorestframework
 twilio
 python-decouple
 drf-yasg
+pytest
+pytest-django
