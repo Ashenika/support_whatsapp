@@ -56,6 +56,11 @@ docker-compose run app python manage.py createsuperuser
 
 ### 7. Visit the application at ```http://127.0.0.1:8000/login/``` and login
 
+### 8. To Run Unit tests
+```bash
+docker-compose run app python manage.py test
+```
+
 ## Troubleshooting
 - Webhook Not Working:
   - Ensure Ngrok is running and the correct URL is set in Twilio.
